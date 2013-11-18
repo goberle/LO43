@@ -1,0 +1,211 @@
+\documentclass[xcolor=x11names,12pt,compress]{beamer}
+
+\let\Tiny=\tiny % fuck you dolphin !
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{palatino}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{soul}
+\usepackage{textpos}
+
+\usetheme{Luebeck}
+\setbeamertemplate{navigation symbols}{}
+
+\title{LO43 - Projet}
+\subtitle{Visualisation de problématiques routières}
+\author{Guillaume Oberle \and Julien Voisin\\ \vspace{.5cm} \today}
+
+\date{}
+\institute{\includegraphics[width=.25\textwidth]{logo.eps}}
+
+\AtBeginSection[]{
+  \begin{frame}{Plan}
+  \small \tableofcontents[currentsection, hideothersubsections]
+  \end{frame} 
+}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Plan}
+    \tableofcontents[hidesubsections]
+\end{frame}
+
+\section{Cahier des charges}
+\subsection{Problème}
+\begin{frame}{Problème de répartition}
+    \begin{columns}
+        \begin{column}{0.2\textwidth}
+            \includegraphics{bus.eps}
+        \end{column}
+        \begin{column}{0.7\textwidth}
+            \large Comment optimiser le nombre de chauffeurs pour un nombre de tâches donné ?
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Données}
+\begin{frame}{Les données sont fournies}
+    \begin{columns}
+        \begin{column}{0.2\textwidth}
+            \includegraphics{data.eps}
+    \end{column}
+        \begin{column}{0.5\textwidth}
+    \begin{block}{Instances}
+        \begin{itemize}
+    	    \item Liste de taches
+        \end{itemize}
+    \end{block}
+    \begin{block}{Solutions}
+        \begin{itemize}
+    	    \item Liste de chauffeurs
+        \end{itemize}
+    \end{block}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Objectif}
+\begin{frame}{Objectif du projet}
+    \begin{columns}
+        \begin{column}{0.2\textwidth}
+            \includegraphics{driver.eps}
+    \end{column}
+        \begin{column}{0.6\textwidth}
+        \large Permettre de visualiser de manière efficace les données et la solution associée.
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\section{UML}
+\begin{frame}[plain]{UML}
+    \includegraphics[width=\textwidth, height=8cm]{../UML/simple.png}
+\end{frame}
+
+\section{Implémentation}
+\subsection{Parsage}
+\subsection{Vues}
+\subsubsection{Instances}
+\begin{frame}{Instances}
+    \includegraphics[width=\textwidth]{../rapport/instances.png}
+\end{frame}
+\subsubsection{Solutions}
+\begin{frame}{Solutions}
+    \includegraphics[width=\textwidth]{../rapport/chauffeur.png}
+\end{frame}
+\subsubsection{Services}
+\begin{frame}{Services}
+    \includegraphics[width=\textwidth]{../rapport/services.png}
+\end{frame}
+\subsubsection{Vue Globale}
+\begin{frame}{Vue Globale}
+    \includegraphics[width=\textwidth]{../rapport/global.png}
+\end{frame}
+\subsubsection{Menu}
+\begin{frame}{Menu}
+    \includegraphics[trim = 0mm 16cm 27cm 0cm, clip, width=\textwidth]{../rapport/menu.png}
+\end{frame}
+\subsubsection{Configuration}
+\begin{frame}{Configuration}
+    \begin{columns}
+        \begin{column}{0.3\textwidth}
+            \includegraphics{pince.eps}
+        \end{column}
+        \begin{column}{0.7\textwidth}
+    Un fichier de configuration de la forme:
+    \begin{block}{Config}
+        workTime 480\\
+        extraWorkTime 120\\
+        breakTime 20
+    \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+\section{Choix techniques}
+\begin{frame}{Choix techniques}
+    \begin{columns}
+        \begin{column}{0.3\textwidth}
+            \includegraphics{gear.eps}
+        \end{column}
+        \begin{column}{0.7\textwidth}
+            \begin{block}{Parsage}
+                \begin{itemize}
+                    \item \st{Rexegp}
+                    \item Scanner()
+                \end{itemize}
+            \end{block}
+            \pause
+            \begin{block}{Parallelisation}
+                \begin{itemize}
+                    \item \st{Threads}
+                    \item Séquentiel
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{JFreeCharts}
+    \begin{columns}
+        \begin{column}{0.2\textwidth}
+        \includegraphics{graph.eps}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+            \begin{itemize}
+	            \item Libre
+	            \item Maintenue
+	            \item De qualité
+	            \item Simple d'utilisation
+            \end{itemize}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Outils de développement}
+    \begin{columns}
+        \begin{column}{0.2\textwidth}
+        \includegraphics{tools.eps}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \large Utilisation intensive de Git et d'Eclipse.
+    \end{column}
+\end{columns}
+\end{frame}
+
+\section*{Conclusion}
+\begin{frame}{Conclusion}
+    \begin{columns}
+        \begin{column}{0.2\textwidth}
+        \includegraphics{happy.eps}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \begin{itemize}
+	    \item Cahier des charges rempli
+	    \item Projet fonctionnel
+	    \item Délais respectés
+    \end{itemize}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Démo et questions}
+    \begin{columns}
+        \begin{column}{0.2\textwidth}
+        \includegraphics{questions.eps}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \Huge Questions ?
+    \end{column}
+\end{columns}
+\end{frame}
+
+
+%data pictogram designed by Brennan Novak from The Noun Project
+\end{document}

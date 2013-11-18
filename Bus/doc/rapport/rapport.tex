@@ -1,0 +1,132 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{palatino}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+
+\title{Optimisation de trajets de Bus\\
+\small LO43 - rapport final}
+\author{Guillaume Oberle \and Julien Voisin}
+\date{\today{}}
+
+\setcounter{tocdepth}{2}
+
+\begin{document}
+
+\input{title.tex}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section*{Introduction}
+Dans le cadre de l’unité de valeur LO43, il a été demandé aux étudiants de réaliser un projet de fin de semestre. Ce projet a pour but de mettre en application les différentes notions acquises en programmation orientée objet ainsi que de pratiquer le langage de programmation Java.
+\paragraph{}
+L'objectif de ce projet est de réaliser une application fonctionnelle afin d'évaluer et de représenter dans une interface graphique un couple de données/solution du problème d'habillage dans le cadre de la planification des transports de bus urbains.
+\paragraph{}
+Dans une première partie nous présenterons le cahier des charges. Dans une deuxième partie nous ferons l'analyse UML de notre projet. Dans une troisième partie, nous évoquerons la façon dont nous avons choisi d'implémenter notre solution. Puis nous ferons état des choix techniques que nous avons du réaliser. Enfin, nous terminerons par une conclusion.
+
+\newpage
+\section{Cahier des charges}
+\subsection{Présentation de la famille du problème}
+Le problème de \emph{crew scheduling} (\emph{problème d'habillage} en français) est un problème d'optimisation connu, avec de multiples applications dans la vie réelle, telles que des probatiques de répartition d'équipes en entreprise, l'organisation de tournées, \dots La problématique soulevée pour ce projet est une répartition au mieux des taches de conduites en cherchant à minimiser le nombre de chauffeurs afin de maximiser les profits. 
+
+\subsection{Objectif}
+L’objectif de ce projet est d’évaluer et de représenter dans une interface graphique une solution du problème, afin de la contextualiser et d'en permette une visualisation rapide et efficace.
+\subsection{Données}
+Pour ce projet, on dispose à la fois des données du problème et d’une solution associée. La donnée du problème est un fichier décrivant toutes les tâches de conduites. Chaque tâche est composée par quatre éléments: l’heure de départ, l’heure d’arrivée, le lieu de départ et le lieu d’arrivée.
+Des fichiers Donnée et Solution sont fournies dans un format précis.
+
+\newpage
+\section{Analyse UML et contraintes techniques}
+\subsection{Analyse UML}
+\includegraphics[width=1\textwidth]{../UML/global.png}
+Ce diagramme UML représente l'intégralité du projet. Il est amusant de noter qu'il ne comporte que des associations, et une agrégation, et aucun héritage. 
+\subsection{Contraintes techniques}
+\begin{itemize}
+    \item Le rapport, ainsi que le projet doivent être rendus pour le vendredi 28 juin 2013.
+    \item Le projet doit être codé en Java
+    \item L'interface doit être graphique
+\end{itemize}
+		
+\newpage
+\section{Implémentation}
+L'implémentation peut se découper en 4 parties:
+\begin{itemize}
+	\item Parsage des fichiers
+	\begin{itemize}
+	    \item de solutions
+	    \item d'instance
+	    \item de configuration
+    \end{itemize}
+    \item Affichage des instances
+    \item Affichage du rapport des services
+    \item Affichage de la solution par chauffeur
+    \item Affichage global de la solution
+\end{itemize}
+
+\subsection{Parsage des données}
+Le jeu de données se passe en paramètre au programme. Des valeurs par défaut son appliquées sinon. Un fichier de solution parsé retourne une liste de tâches, une fichier de configuration, une classe \emph{Config}, et enfin un fichier de solutions retourne une liste de chauffeurs. La classe dédiée a cette tâche ne comporte qu'une petite centaine de lignes.
+\subsection{Affichage}
+La partie graphique du projet utilise \emph{SWING}, ainsi que la bibliothèque \emph{JfreeCharts} (voir plus loin). La fenêtre est composée d'onglets permettant de sélectionner la vue. Chaque onglet menant à une vue, correspondant chacune à une classe héritant de \emph{JPanel}. 
+\subsubsection{La vue \emph{Instances}}
+\includegraphics[width=\textwidth]{instances.png}
+La vue \emph{Instances} étends un \emph{AbstractTableModel}. Elle présente les instances sous forme d'un tableau, et permet de les filtrer suivant leur lieu de départ, d'arrivée, ainsi que de leur service. Il est également possible de les ordonner.
+\subsubsection{La vue \emph{Solutions}}
+\includegraphics[width=\textwidth]{chauffeur.png}
+La vue \emph{Solutions} permet d'afficher séparément les informations pour chaque chauffeur à l'aide d'une combobox. Elle présente le parcours du chauffeur sectionné sous forme d'un diagramme de Gantt, ainsi que dans un encart à droite trois types d'informations:
+\begin{itemize}
+	\item Les informations sur le chauffeur, telles que son coût, son nombre de tâches, l'écart à la durée légale de travail, ses heures supplémentaires, \dots
+    \item Les informations sur la solution globale, telles que le nombre total de chauffeurs, son coût, et le nombre de tâches.
+    \item Les informations légales, tirées du fichier de configuration, telles que la durée d'une pause, d'une journée, \dots Ces informations permettent entre autre de calculer les dépassements et écarts à la loi possibles affichés dans les informations du chauffeurs.
+\end{itemize}
+\subsubsection{La vue \emph{Services}}
+\includegraphics[width=\textwidth]{services.png}
+La vue \emph{Services} se présente sous forme d'un diagramme de type camembert, montrant la répartition en pour-cents des différents services (matin, jour, soir, nuit).
+\subsubsection{La vue \emph{Globale}}
+\includegraphics[width=\textwidth]{global.png}
+La vue \emph{Globale} montre sous forme de diagramme de Gantt la solution dans son ensemble.
+
+\newpage
+\section{Choix techniques}
+\subsection{Parsage des données}
+Le parsage des données s'effectue à l'aide de la classe \emph{Scanner}, et non pas avec des regexp. En effet, les fichiers étant formaté de manière stricte, il était plus facile d'utiliser la première méthode. De plus, les regexp en Java 1.6 ne sont pas vraiment confortables à utiliser.
+\subsection{La bibliothèque JFreeCharts}
+L'utilisation de cette bibliothèque a permis de réduire le temps de développement. Elle permet de créer des graphes de toutes formes (dont des diagrammes de Gantt) à partie de données brutes. Plusieurs raisons quant-à son utilisation:
+\begin{itemize}
+	\item Placée sous licence libre
+	\item Maintenue
+	\item Documentée
+	\item Précédemment utilisée dans d'autres projets scolaires
+\end{itemize}
+\subsection{Parallélisation}
+L'absence de parallélisation est un choix délibéré. En effet, le gain de vitesse et de confort utilisateur apporté est négligeable comparé à la complexité induite par son utilisation. Des tests ont même montré que l'utilisation de threads était parfois plus lente qu'un déroulement purement séquentiel.
+
+\subsection{Sélection des données}
+L'utilisation d'un menu sélecteur permet à l'utilisateur de choisir les données qu'il souhaite afficher. Le seul soucis de cette méthode est que le choix des données est codé en dur dans l'application. une amélioration possible serait de faire une boite de dialogue permettant à l'utilisateur de sélectionner ses jeux de données librement.\\
+\includegraphics[width=\textwidth]{menu.png}
+
+\subsection{Outils de développement}
+Le développement de ce projet s'est fait à l'aide de l'éditeur \emph{Eclipse}, et la gestion de version avec \emph{git}, permettant de travailler de manière décentralisée sans crainte de conflits.
+
+\newpage
+\section{Conclusion}
+\subsection{Problèmes rencontrés}
+Nous n'avons pas rencontré de problèmes majeurs lors du développement de ce projet. Deux soucis mineurs ont tout de même été à déplorer:
+\begin{itemize}
+	\item Les fichiers de données fournies étaient mal formatés. Nous avons donc perdu du temps à essayer d'adapter notre parseurs aux différents cas particuliers.
+	\item L'organisation de l'UV, notamment l'apprentissage du langage Java en fin de semestre ne nous a pas permis de le commencer tôt.
+\end{itemize}
+
+Le bilan de ce projet peut se concentrer sur deux points principaux: un bilan au niveau humain et au niveau pédagogique. 
+\subsection{Bilans}
+\subsubsection{Bilan humain}
+Au niveau humain, cela a permis de découvrir ou de redécouvrir l'esprit d'équipe dans un projet. Ce fut également l'occasion de s'apercevoir que pour peu que tout le monde maîtrise \emph{git}, un projet peut se dérouler sans aucun problèmes.
+\subsubsection{Bilan pédagogique}
+Le bilan pédagogique est plutôt positif. Certains ont appris le Java, et l'ensemble du groupe en a profité pour améliorer ses connaissances de git ainsi que de \LaTeX.
+\subsection{Conclusion finale}
+Le cahier des charge a été respecté, et le programme fonctionne correctement quel que soit le jeu de données en entrée. Un cahier des charges a été mené, la conception UML a été faite. Le développement a lui aussi été mené correctement puisqu'il s'est déroulé sans soucis. Il fut l'occasion de se perfectionner en java, ainsi qu'avec git.
+\end{document}
